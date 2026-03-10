@@ -15,8 +15,10 @@ def get_mibo_data():
         auth_data = {"username": USER_LOGIN, "password": USER_PASS, "clientId": CLIENT_ID}
         auth_res = requests.post(auth_url, json=auth_data).json()
         token = auth_res.get('accessToken')
-        headers = {'Authorization': f'Bearer {token}'}
-
+        headers = {
+            'Authorization': f'Bearer {token}',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
         # 2. Stažení aktuálních poloh a rychlostí
         statusy = requests.get("https://o1-api.gpsguard.eu/webapi/DOCU/vehicle/statusV2", headers=headers).json()
         # Stažení názvů aut (SPZ)
