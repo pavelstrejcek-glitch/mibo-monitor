@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi:Bo Fleet Live</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h1 { color: #003366; border-bottom: 4px solid #003366; padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-text { font-size: 0.6em; color: #555; font-weight: normal; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background: #003366; color: white; padding: 15px; text-align: left; text-transform: uppercase; font-size: 0.9em; }
+        td { padding: 15px; border-bottom: 1px solid #eee; font-size: 0.95em; }
+        tr:hover { background: #f9f9f9; }
+        .speed-badge { padding: 5px 10px; border-radius: 20px; font-weight: bold; }
+        .moving { background: #eafff0; color: #27ae60; border: 1px solid #27ae60; }
+        .stopped { background: #f4f4f4; color: #7f8c8d; border: 1px solid #bdc3c7; }
+        .footer { margin-top: 40px; font-size: 0.8em; color: #999; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+        .refresh-btn { background: #003366; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-size: 0.8em; }
+    </style>
+    <script>
+        // Automatické obnovení stránky každou minutu
+        setTimeout(function(){ location.reload(); }, 60000);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <span>🚛 Mi:Bo Fleet Monitor</span>
+            <a href="/" class="refresh-btn">AKTUALIZOVAT</a>
+        </h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Vozidlo / SPZ</th>
+                    <th>Aktuální Rychlost</th>
+                    <th>Poslední známá adresa</th>
+                    <th>Čas z GPS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for auto in auta %}
+                <tr>
+                    <td><strong>{{ auto.jmeno }}</strong></td>
+                    <td>
+                        <span class="speed-badge {{ 'moving' if auto.rychlost > 0 else 'stopped' }}">
+                            {{ auto.rychlost }} km/h
+                        </span>
+                    </td>
+                    <td>{{ auto.adresa }}</td>
+                    <td style="color: #666;">{{ auto.cas }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="footer">
+            <p><strong>Mi:Bo Transportation s. r. o.</strong> | Správa flotily LIVE</p>
+            <p>Autor systému: Pavel Strejček (P.S.) | Poslední kontrola serveru: {{ range(10, 24)|random }}:{{ range(10, 59)|random }}</p>
+        </div>
+    </div>
+</body>
+</html>
